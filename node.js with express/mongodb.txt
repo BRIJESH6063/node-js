@@ -1,0 +1,889 @@
+test> show dbs
+admin          40.00 KiB
+config        108.00 KiB
+firstmongo     72.00 KiB
+local         120.00 KiB
+secondDB      108.00 KiB
+students-api  144.00 KiB
+todolistDB    144.00 KiB
+test> use admin
+switched to db admin
+admin>
+system.version
+admin>
+
+admin> use firstmongo
+switched to db firstmongo
+firstmongo> show collections
+collection1
+simpledb>
+switched to db simpledb
+simpledb>
+
+simpledb> ;
+
+simpledb> db.testCollection.insertOne({test: 123}) ;
+{
+  acknowledged: true,
+  insertedId: ObjectId("664f6da992c90d733cab7e55")
+}
+simpledb> ;
+testCollection
+simpledb>
+
+simpledb>
+
+simpledb> show collections
+testCollection
+simpledb> db.testCollection.find()
+[ { _id: ObjectId("664f6da992c90d733cab7e55"), test: 123 } ]
+simpledb> db.dropDatabase()
+{ ok: 1, dropped: 'simpledb' }
+simpledb> show collections
+customer
+simpledb> db.customer.find()
+[
+  {
+    _id: ObjectId("664f72ef92c90d733cab7e56"),
+    name: 'John',
+    age: 35,
+    gender: 'male'
+  }
+]
+##### 
+simpledb>
+
+#### capped -- limited(assigned) memory, 
+#### autoIndexed, 
+#### max -- maximum number of collections
+
+simpledb> db.createCollection("test", {capped: true, autoIndexId: true, size: 6142567, max: 100})
+{ ok: 1 }
+simpledb> show collections
+customer
+test
+simpledb> db.test.find()
+
+simpledb> db.customer.find()
+[
+  {
+    _id: ObjectId('664f72ef92c90d733cab7e56'),
+    name: 'John',
+    age: 35,
+    gender: 'male'
+  },
+  {
+    _id: ObjectId('664f87406adb45fd07da627d'),
+    name: 'Mark',
+    age: 28,
+    gender: 'Male'
+  }
+]
+simpledb> db.customer.insertOne({_id: "uniqueID-1", name: "Steve", age: 30})
+{ acknowledged: true, insertedId: 'uniqueID-1' }
+simpledb> db.customer.find()
+[
+  {
+    _id: ObjectId('664f72ef92c90d733cab7e56'),
+    name: 'John',
+    age: 35,
+    gender: 'male'
+  },
+  {
+    _id: ObjectId('664f87406adb45fd07da627d'),
+    name: 'Mark',
+    age: 28,
+    gender: 'Male'
+  },
+  { _id: 'uniqueID-1', name: 'Steve', age: 30 }
+]
+
+#### What is BSON data format | Getting Started with MongoDB
+#### BSON -- Binary JSON (Json converted to BSON before saving )
+#### conversion done by drivers
+
+simpledb> db.customer.insertOne({_id: "uniqueID-1", name: "Steve", age: 30})
+MongoServerError: E11000 duplicate key error collection: simpledb.customer index: _id_ dup key: { _id: "uniqueID-1" }
+
+#### Inserting documents in collection | Getting Started with MongoDB
+simpledb> db.customer.insertMany([{name: "Sarah", gender: "Female"}, {name: "Rajesh", age: 36}, {name: "John Snow", age: 32, gender: "Male"}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('664f8aa84659075fbecdcdf6'),
+    '1': ObjectId('664f8aa84659075fbecdcdf7'),
+    '2': ObjectId('664f8aa84659075fbecdcdf8')
+  }
+}
+
+#### INSERT method
+simpledb> db.customer.insert({name: "Merry", age: 34})
+DeprecationWarning: Collection.insert() is deprecated. Use insertOne, insertMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('664f8b5c4659075fbecdcdf9') }
+}
+simpledb> db.customer.insert([{name: "Tom", gender: "Male", age: 36}, {name: "Mike", age: 36}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('664f8bd14659075fbecdcdfa'),
+    '1': ObjectId('664f8bd14659075fbecdcdfb')
+  }
+}
+
+
+#### Fetch documents from collection | Getting Started with MongoDB
+simpledb> db.customer.findOne({name: "John Snow"})
+{
+  _id: ObjectId('664f8aa84659075fbecdcdf8'),
+  name: 'John Snow',
+  age: 32,
+  gender: 'Male'
+}
+
+simpledb> db.customer.find({gender: "Male"}, {_id: false, gender: false})
+[
+  { name: 'Mark', age: 28 },
+  { name: 'John Snow', age: 32 },
+  { name: 'Tom', age: 36 }
+]
+
+simpledb> db.customer.updateOne({name: "John"}, {$set: {age: 50}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+simpledb> db.customer.find({name: "John"})
+[
+  {
+    _id: ObjectId('664f72ef92c90d733cab7e56'),
+    name: 'John',
+    age: 50,
+    gender: 'male'
+  }
+]
+
+simpledb> db.customer.updateMany({name: "Merry"}, {$set: {gender: "Femmale", country: "United Kingdom"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+simpledb> db.customer.find({name: "Merry"})
+[
+  {
+    _id: ObjectId('664f8b5c4659075fbecdcdf9'),
+    name: 'Merry',
+    age: 34,
+    country: 'United Kingdom',
+    gender: 'Femmale'
+  }
+]
+
+#### Delete document in a collection | Getting Started with MongoDB
+simpledb> db.customer.deleteOne({name: "John"})
+{ acknowledged: true, deletedCount: 1 }
+simpledb> db.customer.find({name: "John"})
+
+simpledb>
+
+simpledb> db.customer.remove({name: "John"})
+DeprecationWarning: Collection.remove() is deprecated. Use deleteOne, deleteMany, findOneAndDelete, or bulkWrite.
+{ acknowledged: true, deletedCount: 0 }
+simpledb>
+
+simpledb> db.customer.remove()
+#### all the element deleted from collection
+
+#### What is Cursor in MongoDB | Getting Started with MongoDB
+find command doesnt give all data of large dataset hence use 'it' command to see further
+simpledb> db.customer.find().toArray()
+[
+  {
+    _id: ObjectId('664f87406adb45fd07da627d'),
+    name: 'Mark',
+    age: 28,
+    gender: 'Male'
+  },
+  { _id: 'uniqueID-1', name: 'Steve', age: 30 },
+  {
+    _id: ObjectId('664f8aa84659075fbecdcdf6'),
+    name: 'Sarah',
+    gender: 'Female'
+  },
+  {
+    _id: ObjectId('664f8aa84659075fbecdcdf7'),
+    name: 'Rajesh',
+    age: 36
+  },
+  {
+    _id: ObjectId('664f8aa84659075fbecdcdf8'),
+    name: 'John Snow',
+    age: 32,
+    gender: 'Male'
+  },
+  {
+    _id: ObjectId('664f8b5c4659075fbecdcdf9'),
+    name: 'Merry',
+    age: 34,
+    country: 'United Kingdom',
+    gender: 'Femmale'
+  },
+  {
+    _id: ObjectId('664f8bd14659075fbecdcdfa'),
+    name: 'Tom',
+    gender: 'Male',
+    age: 36
+  },
+  { _id: ObjectId('664f8bd14659075fbecdcdfb'), name: 'Mike', age: 36 }
+]
+
+simpledb> db.customer.find().forEach(function(cust) {print("Customer Name : "+cust.name)})
+Customer Name : Mark
+Customer Name : Steve
+Customer Name : Sarah
+Customer Name : Rajesh
+Customer Name : John Snow
+Customer Name : Merry
+Customer Name : Tom
+Customer Name : Mike
+
+
+simpledb> db.demo.insertOne({name: "John", isAdmin: true, age: 34, dob: new Date(), createdOn: new Timestamp()})
+{
+  acknowledged: true,
+  insertedId: ObjectId('664fa6c44659075fbecdcdfc')
+}
+simpledb> db.demo.find()
+[
+  {
+    _id: ObjectId('664fa6c44659075fbecdcdfc'),
+    name: 'John',
+    isAdmin: true,
+    age: 34,
+    dob: ISODate('2024-05-23T20:27:48.919Z'),
+    createdOn: Timestamp({ t: 1716496068, i: 1 })
+  }
+]
+
+simpledb> typeof db.demo.find().age
+undefined
+simpledb> typeof db.demo.findOne().age
+number
+
+simpledb> db.stats
+{
+  db: 'simpledb',
+  collections: 2,
+  views: 0,
+  objects: 9,
+  avgObjSize: 64.11111111111111,
+  dataSize: 577,
+  storageSize: 57344,
+  indexes: 2,
+  indexSize: 57344,
+  totalSize: 114688,
+  scaleFactor: 1,
+  fsUsedSize: 251027865600,
+  fsTotalSize: 511234273280,
+  ok: 1
+}
+
+
+#### Nested | Embedded Documents | Getting Started with MongoDB
+## outer document(one data of a collection) size should not exceed 16MB
+
+simpledb> db.customer.insertMany([
+    {
+...                 "name" : "Mery",
+...                 "age" : 25,
+...                 "isMarried" : false,
+...                 "subscription" : {
+...                         "type": "yearly",
+...                         "renewalDate" : {
+...                                 "day" : 23,
+...                                 "month" : "June",
+...                                 "year" : 2022
+...                         }
+...         }
+...         },
+...         {
+...                 "name" : "John",
+...                 "age" : 28,
+...                 "isMarried" : false,
+...                 "subscription" : {
+...                         "type": "monthly",
+...                         "renewalDate" : {
+...                                 "day" : 31,
+...                                 "month" : "March",
+...                                 "year" : 2023
+...                         }
+...                 }
+...         },
+...         {
+...                 "name" : "Sarah",
+...                 "age" : 30,
+...                 "isMarried" : true,
+...                 "subscription" : {
+...                         "type": "monthly",
+...                         "renewalDate" : {
+...                                 "day" : 31,
+...                                 "month" : "July",
+...                                 "year" : 2022
+...                         }
+...                 }
+...         },
+...         {
+...                 "name" : "Steve",
+...                 "age" : 38,
+...                 "isMarried" : true,
+...                 "subscription" : {
+...                         "type": "yearly",
+...                         "renewalDate" : {
+...                                 "day" : 30,
+...                                 "month" : "June",
+...                                 "year" : 2023
+...                         }
+...                 }
+...         },
+...         {
+...                 "name" : "Rashid",
+...                 "age" : 28,
+...                 "isMarried" : true,
+...                 "subscription" : {
+...                         "type": "monthly",
+...                         "renewalDate" : {
+...                                 "day" : 28,
+...                                 "month" : "March",
+...                                 "year" : 2023
+...                         }
+...                 }
+...         }
+...    ])
+
+
+simpledb> db.customer.find({"subscription.type": "yearly"})
+[
+  {
+    _id: ObjectId("664faa276cfd637e3efd7706"),
+    name: 'Mery',
+    age: 25,
+    isMarried: false,
+    subscription: {
+      type: 'yearly',
+      renewalDate: { day: 23, month: 'June', year: 2022 }
+    }
+  },
+  {
+    _id: ObjectId("664faa276cfd637e3efd7709"),
+    name: 'Steve',
+    age: 38,
+    isMarried: true,
+    subscription: {
+      type: 'yearly',
+      renewalDate: { day: 30, month: 'June', year: 2023 }
+    }
+  }
+]
+
+#### update nested document
+simpledb> db.customer.updateOne({name: "Rashid"}, {$set: {"subscription.type": "yearly"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+simpledb> db.customer.findOne({name: "Rashid"}).subscription
+{
+  type: 'yearly',
+  renewalDate: { day: 28, month: 'March', year: 2023 }
+}
+
+
+simpledb> db.customer.remove({})
+{ acknowledged: true, deletedCount: 13 }
+
+#### Working with Arrays | Getting Started with MongoDB
+
+
+[
+    {
+    _id: ObjectId("664faa276cfd637e3efd7707"),
+    name: 'John',
+    age: 28,
+    isMarried: false,
+    subscription: {
+      type: 'monthly',
+      renewalDate: { day: 31, month: 'March', year: 2023 }
+    }
+  },
+  {
+    _id: ObjectId("664faa276cfd637e3efd7708"),
+    name: 'Sarah',
+    age: 30,
+    isMarried: true,
+    subscription: {
+      type: 'monthly',
+      renewalDate: { day: 31, month: 'July', year: 2022 }
+    }
+  },
+  {
+    _id: ObjectId("664faa276cfd637e3efd7709"),
+    name: 'Steve',
+    age: 38,
+    isMarried: true,
+    subscription: {
+      type: 'yearly',
+      renewalDate: { day: 30, month: 'June', year: 2023 }
+    }
+  },
+  {
+    _id: ObjectId("664faa276cfd637e3efd770a"),
+    name: 'Rashid',
+    age: 28,
+    isMarried: true,
+    subscription: {
+      type: 'monthly',
+      renewalDate: { day: 28, month: 'March', year: 2023 }
+    }
+  }
+]
+
+
+
+#### Creating a hosted database with Atlas
+## Multi cloud data platform
+# CLUSTER (ijnstance of database)
+A cluster in MongoDB Atlas is a managed NoSQL Database-as-a-Service (DBaaS) that can be set up 
+in the public cloud. It can be accessed from a web browser and is available in Amazon Web 
+Services, Google Cloud Platform, and Microsoft Azure
+
+#### difference bw clusters and collections
+## A cluster is a group of machines or instances that work together, while a collection is a container for storing related documents within a single database. The purpose of a cluster is to improve performance, availability, and scalability, while a database's main goal is to organize, store, and manage data efficiently
+
+
+#### onnect to remote database from Express | Using MongoDB with Express
+## install mongoose driver
+
+const mongoose = require("mongoose")
+
+mongoose.connect(process.env.CONNECTION_STRING, {
+    useNewUrlParser: true
+}).then((connObj) => {
+    console.log(connObj) ;
+    console.log('DB connection Successful')
+}). catch((err) => {
+    console.log("Some error has occured!")
+})
+
+// creating the model of the schema
+const Movie = mongoose.model('Movie', movieSchema) ;
+
+
+// // Creating documents from Model | Using MongoDB with Express
+const testMovie = new Movie({
+    name: "Intersteller theme song",
+    description: "Action packed movie staring bruce willis in this trilling adventure.",
+    duration: 129,
+    ratings: 4.2
+}) ;
+
+
+testMovie.save()
+.then((doc) => {
+    console.log(doc)
+}). catch((err) => {
+    console.log("Error occured : " + err) ;
+})
+
+
+
+#### MVC Architecture in NODE JS | Using MongoDB with Express
+## Model ( business logic --> writing logic and functions )
+## View  ( Presentation Layer )
+## Controller ( eresp for handling application request from models and views )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
