@@ -28,7 +28,7 @@
 // console.log(obj1) ;
 // console.log(obj2) ;
 
-// const arr1 = [22, 42, 91, 35]
+const arr1 = [22, 42, 91, 35]
 // // const arr2 = arr1 ;
 // // arr1.push(61) ;
 // // console.log(arr1) ;

@@ -1,9 +1,9 @@
-// javascript is interpreted language(no intermediate file)
-// it is also object oriented
-// case sensitive language
-// internal and external implementation  
+// // javascript is interpreted language(no intermediate file)
+// // it is also object oriented
+// // case sensitive language
+// // internal and external implementation  
 
-// 1. Variables in JAVASCRIPT
+// // 1. Variables in JAVASCRIPT
 // var a ;
 // console.log(a) ; // undefined
 // var a = "brijesh_kumar";
@@ -24,7 +24,7 @@
 // a = 42342 
 // b = "42342"
 // if(a == b) console.log("Fine with == operator")
-// else console.log("Not Fine with === operator")
+// else console.log("Not Fine with == operator")
 // if(a === b) console.log("Fine with === operator")
 // else console.log("Not Fine with === operator")
 // if(a !== b) console.log("Fine with !== operator")
@@ -32,14 +32,19 @@
 // if(a != b) console.log("Fine with != operator")
 // else console.log("Not Fine with != operator")
 
+// Fine with == operator
+// Not Fine with === operator
+// Fine with !== operator
+// Not Fine with != operator
+
 // console.log(typeof(1+"234")) // string
 
-// JavaScript Data Types
-// JavaScript provides different datatypes to hold different values on variables. 
-// JavaScript is a dynamic programming language, which means do not need to specify the type 
-// of variable. There are two types of data types in JavaScript. 
-//    1. Primitive data type
-//    2. Non-primitive (reference) data type
+// // JavaScript Data Types
+// // JavaScript provides different datatypes to hold different values on variables. 
+// // JavaScript is a dynamic programming language, which means do not need to specify the type 
+// // of variable. There are two types of data types in JavaScript. 
+// //    1. Primitive data type
+// //    2. Non-primitive (reference) data type
 
 // let student = {
 //     fname: "Johnny",
@@ -49,27 +54,27 @@
 // };
 // console.log(student.fname)
 
-// JAVASCRIPT LET
-// JavaScript let keyword is used to declare variables that are block-scoped. 
-// Variables defined with the let keyword cannot be redeclared in the same scope and must be 
-// declared before use.
+// // JAVASCRIPT LET
+// // JavaScript let keyword is used to declare variables that are block-scoped. 
+// // Variables defined with the let keyword cannot be redeclared in the same scope and must be 
+// // declared before use.
 
 // {
 //     let x = 342875 ;
 //     console.log(x) ;
 // }
 
-// JavaScript CONST
-// The JavaScript const keyword declares variables that cannot be reassigned, preventing their modification.
-// Cannot be reassigned.
-// It has Block Scope
-// It can be assigned to the variable on the declaration line.
-// It’s a Primitive value.
-// The property of a const object can be changed but it cannot be changed to a reference to the new object
-// The values inside the const array can be changed, it can add new items to const arrays but it cannot reference a new array.
-// Re-declaring of a const variable inside different block scopes is allowed.
-// Cannot be Hoisted.
-// Creates only read-only references to value.
+// // JavaScript CONST
+// // The JavaScript const keyword declares variables that cannot be reassigned, preventing their modification.
+// // Cannot be reassigned.
+// // It has Block Scope
+// // It can be assigned to the variable on the declaration line.
+// // It’s a Primitive value.
+// // The property of a const object can be changed but it cannot be changed to a reference to the new object
+// // The values inside the const array can be changed, it can add new items to const arrays but it cannot reference a new array.
+// // Re-declaring of a const variable inside different block scopes is allowed.
+// // Cannot be Hoisted.
+// // Creates only read-only references to value.
 
 // let x = 243 ;
 // {
@@ -82,15 +87,15 @@
 // const arr1 = ["pankaj", "sumit", "chandan", "ajay"];
 // console.log(arr1.toString())
 // arr1[2] = "Narayan"; 
-// console.log(arr1.toString());
+// console.log(arr1.toString()) ;
 
-// Const in Objects
-// It describes that the object properties can be modified only reference to the object
-// cannot be changed. 
+// // Const in Objects
+// // It describes that the object properties can be modified only reference to the object
+// // cannot be changed. 
 
-// JavaScript VAR 
-// The JavaScript var statement declares variables with function scope or globally. Before ES6, 
-// var was the sole keyword for variable declaration, without block scope, unlike let and const.
+// // JavaScript VAR 
+// // The JavaScript var statement declares variables with function scope or globally. Before ES6, 
+// // var was the sole keyword for variable declaration, without block scope, unlike let and const.
 
 // console.log(test) ;
 // var test = 23478 ;
@@ -107,14 +112,14 @@
 // var test = 12;
 // delete(test);
 // console.log(test);
-// // error
-// Explanation: Whenever a variable is declared using var in global scope it cannot be configured. 
-// Hence it cannot be deleted using the delete keyword. and an error is thrown
+// // // error
+// // Explanation: Whenever a variable is declared using var in global scope it cannot be configured. 
+// // Hence it cannot be deleted using the delete keyword. and an error is thrown
 
-// JavaScript BigInt Operators
-// JavaScript BigInt operators support arithmetic operations on BigInt data type, including addition,
-// subtraction, multiplication, division, and exponentiation. Most operators that can be used between 
-// numbers can be used between BigInt values as well
+// // JavaScript BigInt Operators
+// // JavaScript BigInt operators support arithmetic operations on BigInt data type, including addition,
+// // subtraction, multiplication, division, and exponentiation. Most operators that can be used between 
+// // numbers can be used between BigInt values as well
 
 // function fibonacci(n) {
 //     let ans = [0n, 1n] ;
@@ -132,6 +137,8 @@
 // console.log(Infinity);
 // console.log(typeof Math.LN10 === 'number'); 
 // console.log(typeof Infinity === 'number'); 
+
+
 
 // console.log(typeof function () { } === 'function'); 
 // console.log(typeof class C { } === 'function'); 
@@ -157,8 +164,8 @@
 // console.log(delete localVar);  // false, deletion fails 
 // console.log(globalVar) ;       // undefined 
 // console.log(localVar) ;        // 20, deletion failed 
-// // delete localVar returns false because let variables cannot be deleted.
-// // globalVar becomes undefined after deletion, but localVar remains unchanged.
+// delete localVar returns false because let variables cannot be deleted.
+// globalVar becomes undefined after deletion, but localVar remains unchanged.
 
 // function Func1() { 
 //     console.log('one'); 
@@ -199,13 +206,13 @@
 // if(object.val1 in object === false) object.val1 = "GEEKSFORGEEKS" ;
 // console.log(object)
 // console.log(false || true && true) // true
-// --------------------------  LOOPS  --------------------------
+// // --------------------------  LOOPS  --------------------------
 // let x = 0 ;
 // while(x < array.length) {
 //     console.log(array[x] ) ;
 //     x++ ;
 // }
-// -------------------------------  for - of loop
+// // -------------------------------  for - of loop
 // for(let x of array) {
 //     console.log(x) ;
 // }
@@ -213,9 +220,9 @@
 //     if (i == 6) break ;      
 //     console.log(i); 
 // }
-// -------------------------------  for - each loop
+// // -------------------------------  for - each loop
 // array.forEach(val => console.log(val))
-// -------------------------------  JavaScript MAP LOOP
+// // -------------------------------  JavaScript MAP LOOP
 // const arr = [1, 2, 3];
 // const newArr = arr.map(val => val * 2);
 // console.log(newArr);
@@ -254,9 +261,9 @@
 //     }
 // }
 // school.displayInfo(); 
-// JAVASCRIPT OBJECT PROPERTIES
-// The property names can be strings or numbers. In case the property names are numbers, 
-// they must be accessed using the “bracket notation” like this.
+// // JAVASCRIPT OBJECT PROPERTIES
+// // The property names can be strings or numbers. In case the property names are numbers, 
+// // they must be accessed using the “bracket notation” like this.
 // let school = {
 //     name: "Vivekananda School", 
 //     location: "Delhi",
@@ -271,10 +278,10 @@
 // school_name = "Vivekananda School" ;
 // arr = school_name.split(' ') ;
 // console.log(arr)
-// Inherited Properties -------------------------------------
-// Inherited properties of an object are those properties that have been inherited from the object’s 
-// prototype, as opposed to being defined for the object itself, which is known as the object’s Own property. 
-// To verify if a property is an object’s Own property, we can use the hasOwnProperty method.
+// // Inherited Properties -------------------------------------
+// // Inherited properties of an object are those properties that have been inherited from the object’s 
+// // prototype, as opposed to being defined for the object itself, which is known as the object’s Own property. 
+// // To verify if a property is an object’s Own property, we can use the hasOwnProperty method.
 // const obj1 = new Object() ;
 // obj1.property1 = 3578 ;
 // console.log(obj1.hasOwnProperty('property1'))
